@@ -88,11 +88,21 @@ function draw(){
   fill(255);
   frameRate(framerate);
   flower.turnEllipse();
+  let wind = createVector(1,0);
+  flower.applyForce(wind);
+  flower.update();
 }
 
 class walker{
   constructor(x,y){
     this.pos = createVector(width/2,height/2);
+    this.vel = createVector(0,0);
+    this.acc = createVector(0,0);
+  }
+  
+  applyForce(force){
+    let f = p5.Vector.div(force, this.mass);    
+    this.acc.add(f);
   }
   
   turnEllipse(){
@@ -107,6 +117,12 @@ class walker{
     }
     ellipse(0,30,20,80);
     pop();
+  }
+  
+  update(){
+    this.vel.add(this.acc); 
+    this.pos.add(this.vel);
+    this.acc.set(0,0);
   }
 } 
   
